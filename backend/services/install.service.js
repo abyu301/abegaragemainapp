@@ -6,7 +6,7 @@ const fs = require('fs');
 async function install() {
   // Create a variable to hold the path to the sql file  
   const queryfile = __dirname + '/sql/initial-queries.sql';
-  console.log(queryfile);
+  // console.log(queryfile);
   // Temporary variable, used to store all queries, the return message and the current query
   let queries = [];
   let finalMessage = {};
