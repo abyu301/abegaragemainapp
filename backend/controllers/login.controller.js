@@ -18,9 +18,9 @@ async function logIn(req, res, next) {
         status: employee.status,
         message: employee.message,
       });
-      // console.log(employee.message);
+      console.log(employee.message);
     }
-    // If successful, send a response to the client
+    // If successful, send a response to the client {incoding the response to string format}
     const payload = {
       employee_id: employee.data.employee_id,
       employee_email: employee.data.employee_email,
