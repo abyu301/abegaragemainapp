@@ -6,6 +6,9 @@ import { Routes, Route } from "react-router";
 import Home from "./markup/pages/Home";
 import Login from "./markup/pages/Login";
 import AddEmployee from './markup/pages/admin/AddEmployee';
+import AboutPage from './markup/pages/About';
+import ContactPage from './markup/pages/Contact';
+import ServicesPage from './markup/pages/Services';
 import Unauthorized from './markup/pages/Unauthorized';
 // Import the Orders and Customers component
 import Orders from './markup/pages/admin/Orders';
@@ -37,6 +40,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/services" element={<ServicesPage />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         {/* // Add the Orders Route  */}
         <Route path="/admin/orders"
