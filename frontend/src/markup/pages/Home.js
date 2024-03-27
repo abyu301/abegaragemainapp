@@ -1,4 +1,7 @@
 import React from "react";
+import '../../assets/styles/custom.css'
+
+
 import bannerImage1 from "../../assets/images/banner/banner.jpg";
 import bannerImage2 from "../../assets/images/misc/vban4.jpg";
 import miscImage1 from "../../assets/images/misc/vban1.jpg";
@@ -78,7 +81,7 @@ function Home() {
                 </div>
                 <div className="link-btn mt-40">
                   <a
-                    href="about.html"
+                    href="about"
                     className="theme-btn btn-style-one style-two"
                   >
                     <span>

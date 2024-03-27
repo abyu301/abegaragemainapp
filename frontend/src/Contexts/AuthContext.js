@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [employee, setEmployee] = useState(null);
+  // const [customer, setCustomer] = useState(null);
 
   const value = { isLogged, isAdmin, setIsAdmin, setIsLogged, employee };
 
@@ -20,6 +21,9 @@ export const AuthProvider = ({ children }) => {
     // Retrieve the logged in user from local storage
     const loggedInEmployee = getAuth();
     // console.log(loggedInEmployee);
+    // const loggedInCustomer = getAuth();
+    // console.log(loggedInCustomer);
+
     loggedInEmployee.then((response) => {
       // console.log(response);
       if (response.employee_token) {

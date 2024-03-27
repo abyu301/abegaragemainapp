@@ -18,23 +18,78 @@ const ServicesPage = () => {
       </section>
 
       {/* Services Section */}
-      <section className="services-section style-three">
-        <div className="auto-container">
-          <div className="sec-title style-two">
-            <h2>Services that we offer</h2>
-            <div className="text">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-4 service-block-one">
-              <div className="inner-box hvr-float-shadow">
-                <h5>Service and Repairs</h5>
-                <h2>Performance Upgrade</h2>
-                <a href="service-details.html" className="read-more">read more  +</a>
-                <div className="icon"><span className="flaticon-power"></span></div>
-              </div>
+      <section class="services-section style-three">
+        <div class="auto-container">
+            <div class="sec-title style-two">
+                <h2>Services that we offer</h2>
+                <div class="text">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. </div>
             </div>
-            {/* Other service blocks go here */}
-          </div>
+            <div class="row">
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>Performance Upgrade</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-power"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>Transmission Services</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-gearbox"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>Break Repair & Service</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-brake-disc"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>Engine Service & Repair</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-car-engine"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>Tyre & Wheels</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-tire"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>Denting & Painting</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-spray-gun"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>Air Conditioning Evac</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-air-conditioning"></span></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 service-block-one">
+                    <div class="inner-box hvr-float-shadow">
+                        <h5>Service and Repairs</h5>
+                        <h2>General Service & Washing</h2>
+                        <a href="service-details.html" class="read-more">read more  +</a>
+                        <div class="icon"><span class="flaticon-car-service"></span></div>
+                    </div>
+                </div>
+            </div>
         </div>
       </section>
 

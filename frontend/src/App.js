@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router";
 import Home from "./markup/pages/Home";
 import Login from "./markup/pages/Login";
 import AddEmployee from './markup/pages/admin/AddEmployee';
+import AddCustomers from './markup/pages/admin/AddCustomers';
 import AboutPage from './markup/pages/About';
 import ContactPage from './markup/pages/Contact';
 import ServicesPage from './markup/pages/Services';
@@ -52,14 +53,20 @@ function App() {
             </PrivateAuthRoute>
           } />
         {/* // Add the Customers Route  */}
-        <Route path="/admin/customers"
-          element={
+        <Route path="/admin/customers" element={     
             <PrivateAuthRoute roles={[2, 3]}>
               <Customers />
             </PrivateAuthRoute>
+      } />
+        <Route path="/admin/add-customer"
+          element={
+            <PrivateAuthRoute roles={[2, 3]}>
+              <AddCustomers />
+            </PrivateAuthRoute>
           } />
         {/* // Add the Employees Route  */}
-        <Route path="/admin/employees" element={<Employees />} />
+        <Route path="/admin/employees" element={<Employees />
+        } />
         <Route path="/admin/add-employee"
           element={
             <PrivateAuthRoute roles={[3]}>
@@ -67,7 +74,7 @@ function App() {
             </PrivateAuthRoute>
           } />
         {/* 
-          Customers (/admin/customers) - managers and admins
+          Customers, AddCustomers (/admin/customers) - managers and admins
           Orders (/admin/orders) - Can be accessed by all employees
           Add employee (/admin/add-employee) - admins only 
             - Admin: 3 
