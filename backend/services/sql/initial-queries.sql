@@ -1,4 +1,3 @@
--- Customers tables  
 CREATE TABLE IF NOT EXISTS `customer_identifier` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_email` varchar(255) NOT NULL,
@@ -14,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `customer_info` (
   `customer_id` int(11) NOT NULL, 
   `customer_first_name` varchar(255) NOT NULL,
   `customer_last_name` varchar(255) NOT NULL,
-  `active_customer_status` int(11) NOT NULL,
+  `active_customer_status` int(11) NOT NULL DEFAULT 1, -- Assuming 1 indicates active, adjust as needed
   PRIMARY KEY (customer_info_id),
   FOREIGN KEY (customer_id) REFERENCES customer_identifier(customer_id)
 ) ENGINE=InnoDB;

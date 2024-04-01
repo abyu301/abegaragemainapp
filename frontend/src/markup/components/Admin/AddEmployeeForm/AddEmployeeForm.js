@@ -65,6 +65,7 @@ function AddEmployeeForm(props) {
     if (!valid) {
       return;
     }
+    
     const formData = {
       employee_email,
       employee_first_name,
@@ -106,6 +107,7 @@ function AddEmployeeForm(props) {
         setServerError(resMessage);
       });
   }
+
 
 
   return (
