@@ -14,8 +14,8 @@ async function checkIfEmployeeExists(email) {
 }
 
 // A function to create a new employee 
+// A function to create a new employee 
 async function createEmployee(employee) {
-  let createdEmployee = {};
   try {
     // Generate a salt and hash the password 
     const salt = await bcrypt.genSalt(10);
@@ -38,15 +38,26 @@ async function createEmployee(employee) {
     const query4 = "INSERT INTO employee_role (employee_id, company_role_id) VALUES (?, ?)";
     const rows4 = await conn.query(query4, [employee_id, employee.company_role_id]);
     // construct to the employee object to return 
-    createdEmployee = {
+    return {
       employee_id: employee_id
-    }
+    };
   } catch (err) {
-    console.log(err);
+    // Check if the error is due to a duplicate entry
+    if (err.code === 'ER_DUP_ENTRY') {
+      // Return a meaningful error response
+      return {
+        error: "An employee with this email already exists."
+      };
+    } else {
+      // Return other errors
+      console.error("Error creating employee:", err);
+      return {
+        error: "An error occurred while creating the employee."
+      };
+    }
   }
-  // Return the employee object 
-  return createdEmployee;
 }
+
 
 // A function to get employee by email
 async function getEmployeeByEmail(employee_email) {

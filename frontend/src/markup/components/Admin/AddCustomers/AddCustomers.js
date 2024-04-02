@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import customerService from '../../../../services/customer.service'; 
+import customerService from '../../../../services/customer.service';
 
 function AddCustomers() {
   const [customer_email, setEmail] = useState('');
@@ -11,7 +11,14 @@ function AddCustomers() {
   const [customerPhoneRequired, setCustomerPhoneRequired] = useState('');
   const [serverError, setServerError] = useState('');
 
-  const handleSubmit = (e) => { 
+  // Define the getToken function to retrieve the authentication token
+  const getToken = () => {
+    // Implement this function to get the token from localStorage or wherever it's stored
+    return localStorage.getItem('employee');
+  };
+  // console.log(getToken());
+
+  const handleSubmit = async (e) => { 
     e.preventDefault();
 
     let valid = true; 
@@ -54,25 +61,31 @@ function AddCustomers() {
       customer_phone
     };
 
-    const newCustomer = customerService.createCustomer(formData); // Call createCustomer function from customerService
-    newCustomer
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          setServerError(data.error);
+    try {
+      const token = getToken();
+      
+      const response = await customerService.createCustomer(formData, token);
+      const data = await response.json();
+      
+      if (response.ok) {
+        console.log('Customer added successfully:', data);
+        // Optionally, you can perform any action after successful addition of customer
+      } else {
+        if (response.status === 401) {
+          // Handle unauthorized error
+          console.error('Unauthorized:', data);
+          // Display an error message to the user indicating that they are not authorized
+          setServerError('You do not have permission to add a customer.');
         } else {
-          // Handle successful response
-          // Redirect or perform any action as needed
-          console.log("Customer added successfully:", data);
+          console.error('Failed to add customer:', data);
+          setServerError(data.message || 'Failed to add customer');
         }
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response && error.response.data && error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setServerError(resMessage);
-      });
+        console.log(response)
+      }
+    } catch (error) {
+      console.error('Error adding customer:', error);
+      setServerError(error.message || 'Error adding customer');
+    }
   };
 
   return (
