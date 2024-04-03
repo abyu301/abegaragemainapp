@@ -116,7 +116,7 @@ function AdminDashboard() {
               <div className="inner-box hvr-float-shadow">
                 <h5>SERVICE AND REPAIRS</h5>
                 <h2>Tyre & Wheels</h2>
-                <a href="#" className="read-more">
+                <a href="/services" className="read-more">
                   READ MORE +
                 </a>
                 <div className="icon">

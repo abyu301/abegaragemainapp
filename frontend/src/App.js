@@ -8,6 +8,7 @@ import Login from "./markup/pages/Login";
 import AddEmployee from './markup/pages/admin/AddEmployee';
 import AddCustomers from './markup/pages/admin/AddCustomers';
 import AdminDashboard from './markup/pages/admin/AdminDashboard';
+import Services from './markup/pages/admin/Services';
 import AboutPage from './markup/pages/About';
 import ContactPage from './markup/pages/Contact';
 import ServicesPage from './markup/pages/Services';
@@ -78,6 +79,14 @@ function App() {
           element={
             <PrivateAuthRoute roles={[3]}>
               <AdminDashboard />
+            </PrivateAuthRoute>
+          } />
+
+          {/* // Add the Services Route  */}
+        <Route path="/admin/services"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <Services />
             </PrivateAuthRoute>
           } />
         {/* 
