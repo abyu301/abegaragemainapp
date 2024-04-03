@@ -46,7 +46,6 @@ const createCustomer = async (formData, token) => {
         throw error;
         }
 };
-console.log(response)
 
 const customerService = {
     createCustomer
