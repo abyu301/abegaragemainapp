@@ -4,7 +4,7 @@ import AddCustomersForm from '../../components/Admin/AddCustomers/AddCustomers'
 // Import the AdminMenu component 
 import AdminMenu from '../../components/Admin/AdminMenu/AdminMenu';
 
-function AddEmployee(props) {
+function AddCustomers(props) {
   return (
     <div>
       <div className="container-fluid admin-pages">
@@ -21,4 +21,4 @@ function AddEmployee(props) {
   );
 }
 
-export default AddEmployee;
+export default AddCustomers;
