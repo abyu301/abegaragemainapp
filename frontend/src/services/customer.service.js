@@ -24,32 +24,31 @@
 
 
 
-// Import the API URL from environment variables
+// Import from the env 
 const api_url = process.env.REACT_APP_API_URL;
 
 // Function to send a POST request to create a new customer
 const createCustomer = async (formData, token) => {
-        const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': token 
-        },
-        body: JSON.stringify(formData)
-        };
-    
-        try {
-        const response = await fetch(`${api_url}/api/customers`, requestOptions);
-        return response;
-        } catch (error) {
-        console.error('Error creating customer:', error);
-        throw error;
-        }
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token // Include the authentication token in the headers
+    },
+    body: JSON.stringify(formData)
+  };
+
+  try {
+    const response = await fetch(`${api_url}/api/customers`, requestOptions);
+    return response;
+  } catch (error) {
+    console.error('Error creating customer:', error);
+    throw error;
+  }
 };
 
 const customerService = {
-    createCustomer
+  createCustomer
 };
 
 export default customerService;
-

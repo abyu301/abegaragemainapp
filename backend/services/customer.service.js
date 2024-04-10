@@ -62,59 +62,81 @@
 
 
 
-
 const conn = require("../config/db.config");
+const bcrypt = require('bcrypt');
 
 async function checkIfCustomerExists(email) {
-    try {
-        const query = "SELECT * FROM customer_identifier WHERE customer_email = ?";
-        const [rows] = await conn.query(query, [email]);
-        return rows && rows.length > 0;
-    } catch (error) {
-        console.error("Error checking if customer exists:", error);
-        return false;
-    }
+  try {
+    const query = "SELECT * FROM customer_identifier WHERE customer_email = ?";
+    const [rows] = await conn.query(query, [email]);
+    return rows && rows.length > 0;
+  } catch (error) {
+    console.error("Error checking if customer exists:", error);
+    return false;
+  }
 }
 
 async function createCustomer(customer) {
-    try {
-        const { customer_first_name, customer_last_name, customer_email, customer_phone } = customer;
-        if (!customer_first_name || !customer_last_name || !customer_email || !customer_phone) {
-            throw new Error("Missing required fields");
-        }
-
-        const customerExists = await checkIfCustomerExists(customer_email);
-        if (customerExists) {
-            throw new Error("A customer with this email already exists.");
-        }
-
-        let result;
-        await conn.beginTransaction();
-        try {
-            const query1 = "INSERT INTO customer_info (customer_first_name, customer_last_name) VALUES (?, ?)";
-            const [rows1] = await conn.query(query1, [customer_first_name, customer_last_name]);
-            const customerId = rows1.insertId;
-
-            const query2 = "INSERT INTO customer_identifier (customer_id, customer_email, customer_phone) VALUES (?, ?, ?)";
-            const [rows2] = await conn.query(query2, [customerId, customer_email, customer_phone]);
-
-            if (rows1.affectedRows !== 1 || rows2.affectedRows !== 1) {
-                throw new Error("Failed to create customer.");
-            }
-            result = { customer_id: customerId };
-            await conn.commit();
-        } catch (error) {
-            await conn.rollback();
-            throw error;
-        }
-        return result;
-    } catch (error) {
-        console.error("Error creating customer:", error.message);
-        return false;
+  try {
+    const { customer_first_name, customer_last_name, customer_email, customer_phone_number } = customer;
+    if (!customer_first_name || !customer_last_name || !customer_email || !customer_phone_number) {
+      throw new Error("Missing required fields");
     }
+
+    const customerExists = await checkIfCustomerExists(customer_email);
+    if (customerExists) {
+      throw new Error("A customer with this email already exists.");
+    }
+
+    const query = "INSERT INTO customer_info (customer_first_name, customer_last_name, active_customer_status) VALUES (?, ?, ?)";
+    const [rows1] = await conn.query(query, [customer_first_name, customer_last_name, 1]); // Assuming 1 indicates active status
+
+    if (rows1.affectedRows !== 1) {
+      return false;
+    }
+
+    const customerId = rows1.insertId;
+
+    const query2 = "INSERT INTO customer_identifier (customer_id, customer_email, customer_phone_number) VALUES (?, ?, ?)";
+    const [rows2] = await conn.query(query2, [customerId, customer_email, customer_phone_number]);
+
+    if (rows2.affectedRows !== 1) {
+      return false;
+    }
+
+    return { customer_id: customerId };
+  } catch (error) {
+    console.error("Error creating customer:", error.message);
+    return false;
+  }
+}
+
+async function getCustomerByEmail(customer_email) {
+  try {
+    const query = "SELECT * FROM customer_info INNER JOIN customer_identifier ON customer_info.customer_id = customer_identifier.customer_id WHERE customer_identifier.customer_email = ?";
+    const [rows] = await conn.query(query, [customer_email]);
+    return rows;
+  } catch (error) {
+    console.error("Error fetching customer by email:", error);
+    return null;
+  }
+}
+
+async function getAllCustomers() {
+  try {
+    const query = "SELECT * FROM customer_info INNER JOIN customer_identifier ON customer_info.customer_id = customer_identifier.customer_id";
+    const [rows] = await conn.query(query);
+    return rows;
+  } catch (error) {
+    console.error("Error fetching all customers:", error);
+    return null;
+  }
 }
 
 module.exports = {
-    checkIfCustomerExists,
-    createCustomer
+  checkIfCustomerExists,
+  createCustomer,
+  getCustomerByEmail,
+  getAllCustomers
 };
+
