@@ -5,7 +5,7 @@ require('dotenv').config();
 // Import the sanitizer module 
 const sanitize = require('sanitize');
 // Import the CORS module 
-const cors = require('cors');
+// const cors = require('cors');
 // Set up the CORS options to allow requests from our front-end 
 const corsOptions = {
   origin: process.env.FRONTEND_URL,
