@@ -56,27 +56,41 @@ const ContactPage = () => {
                 {/* End Contact Form */}
               </div>
             </div>
-            {/* Info Column */}
-            <div className="info-column col-lg-5">
-              <div className="inner-column">
-                <h4>Our Address</h4>
-                <div className="text">Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service.</div>
-                <ul>
-                  <li><img src={pinIcon} alt="pin" /><span>Address:</span> 54B, Tailstoi Town 5238 MT, La city, IA 5224</li>
-                  <li><img src={emailIcon} alt="email" /><span>Email:</span> contact@buildtruck.com</li>
-                  <li><img src={phoneIcon} alt="phone" /><span>Phone:</span> 1800 456 7890 / 1254 897 3654</li>
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
       </section>
       {/* End Contact Section */}
 
+      <section>
+      {/* Info Column */}
+      <div className="info-column col-lg-12 mb-4 mx-4">
+        <div className="inner-column bg-light p-4 rounded shadow w-100">
+          <h4 className="mb-4">Our Address</h4>
+          <div className="text mb-4">Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service.</div>
+          <ul className="list-unstyled">
+            <li className="d-flex align-items-center mb-3">
+              <img src={pinIcon} alt="pin" style={{ width: '40px', height: 'auto' }} className="mr-3" />
+              <span>Address:</span> Calgary, Alberta
+            </li>
+            <li className="d-flex align-items-center mb-3">
+              <img src={emailIcon} alt="email" style={{ width: '40px', height: 'auto' }} className="mr-3" />
+              <span>Email:</span> contact@buildtruck.com
+            </li>
+            <li className="d-flex align-items-center">
+              <img src={phoneIcon} alt="phone" style={{ width: '40px', height: 'auto' }} className="mr-3" />
+              <span>Phone:</span> 1800 456 7890 / 1254 897 3654
+            </li>
+          </ul>
+        </div>
+      </div>
+      </section>
+
+
+
       {/* Map Section */}
       <section className="map-section">
         <div className="contact-map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3071.2910802067827!2d90.45905169331171!3d23.691532202989123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1577214205224!5m2!1sen!2sbd" width="600" height="470" style={{ border: '0', width: '100%' }} allowFullScreen="" title="map"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d250785.34527331853!2d-114.07184315499427!3d51.044270238073264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170039f843fd5%3A0x266d3bb1b652b63a!2sCalgary%2C%20AB%2C%20Canada!5e0!3m2!1sen!2sbd!4v1577214205224!5m2!1sen!2sbd" width="600" height="470" style={{ border: '0', width: '100%' }} allowFullScreen="" title="map"></iframe>
         </div>
       </section>
     </>
