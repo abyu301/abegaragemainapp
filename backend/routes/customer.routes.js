@@ -1,85 +1,54 @@
-// // // Import the express module
-// // const express = require('express');
-// // // Call the router method from express to create the router
-// // const router = express.Router();
-// // // Import the customer controller
-// // const customerController = require('../controllers/customer.controller');
-// // // Import middleware
-// // const authMiddleware = require("../middlewares/auth.middleware");
+// import the express module
+const express = require("express");
 
-// // // Create a route to handle the add customer request on post
-// // router.post("/api/customer", [ authMiddleware.isAdmin], customerController.createCustomer);
-// // // Create a route to handle the get all customers request on get
-// // // router.get("/api/customers", [authMiddleware.verifyToken, authMiddleware.isAdmin], customerController.getAllCustomers);
-// // // // Create a route to handle the get customer by ID request on get
-// // // router.get("/api/customers/:id", [authMiddleware.verifyToken, authMiddleware.isAdmin], customerController.getCustomerById);
-// // // // Create a route to handle the update customer request on put
-// // // router.put("/api/customers/:id", [authMiddleware.verifyToken, authMiddleware.isAdmin], customerController.updateCustomer);
-// // // // Create a route to handle the delete customer request on delete
-// // // router.delete("/api/customers/:id", [authMiddleware.verifyToken, authMiddleware.isAdmin], customerController.deleteCustomer);
-
-// // // Export the router
-// // module.exports = router;
-
-
-
-
-
-// // Import the express module
-// const express = require('express');
-// // Call the router method from express to create the router
-// const router = express.Router();
-// // Import the customer controller
-// const customerController = require('../controllers/customer.controller');
-// // Import middleware
-// const authMiddleware = require("../middlewares/auth.middleware");
-
-// // Create a route to handle the add customer request on post
-// router.post("/api/customer", [authMiddleware.isAdmin], async (req, res) => {
-//     try {
-//         const customerData = req.body;
-//         const createdCustomer = await customerController.createCustomer(customerData);
-
-//         if (!createdCustomer) {
-//             return res.status(400).json({ error: "Failed to add the customer." });
-//         }
-
-//         return res.status(200).json({ status: "success", data: createdCustomer });
-//     } catch (error) {
-//         console.error("Error adding customer:", error);
-//         return res.status(500).json({ error: "Something went wrong." });
-//     }
-// });
-
-// // Export the router
-// module.exports = router;
-
-
-
-
-
-
-
-
-const express = require('express');
+// call the router method from express to create the router
 const router = express.Router();
-const customerController = require('../controllers/customer.controller');
-const authMiddleware = require("../middlewares/auth.middleware");
 
-router.post("/api/customers", [authMiddleware.verifyToken, authMiddleware.isAdmin], async (req, res) => {
-    try {
-        const customerData = req.body;
-        const createdCustomer = await customerController.createCustomer(customerData);
+// import the authMiddleware
+const {
+  verifyToken,
+  isAdmin,
+  isAdmin_Manager,
+  isAdmin_Manager_Employee,
+} = require("../middlewares/auth.middleware");
 
-        if (!createdCustomer) {
-            return res.status(400).json({ error: "Failed to add the customer." });
-        }
+// import the customer controller
+const customerController = require("../controllers/customer.controller");
 
-        return res.status(200).json({ status: "success", data: createdCustomer });
-    } catch (error) {
-        console.error("Error adding customer:", error);
-        return res.status(500).json({ error: "Something went wrong." });
-    }
-});
+// create a route to handle the customers request in post
+router.post(
+  "/api/customer",
+  [verifyToken, isAdmin],
+  customerController.createCustomer
+);
 
+// create a route to handle the get all customers request in get
+router.get(
+  "/api/customers",
+  [verifyToken, isAdmin_Manager],
+  customerController.getAllCustomers
+);
+
+// create a route to handle the customer request in put
+router.put(
+  "/api/customer/update",
+  [verifyToken, isAdmin],
+  customerController.updateCustomer
+);
+
+// create a route to handle the get single customers request in get
+router.get(
+  "/api/customer/single/:hash",
+  [verifyToken, isAdmin],
+  customerController.getsingleCustomer
+);
+
+// create a route to handle the find customers request in get
+router.get(
+  "/api/customer/find",
+  [verifyToken, isAdmin],
+  customerController.findCustomer
+);
+
+// export the router
 module.exports = router;

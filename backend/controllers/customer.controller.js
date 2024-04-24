@@ -1,94 +1,169 @@
-// const customerService = require('../services/customer.service');
+// import the customer service
+const {
+  checkIfCustomerExists,
+  createCustomerr,
+  getAllCustomerss,
+  updateCustomerr,
+  getSingleCustomerr,
+  findCustomerr,
+} = require("../services/customer.service");
 
-// async function createCustomer(req, res, next) {
-//     try {
-//         const customerExists = await customerService.checkIfCustomerExists(req.body.customer_email);
-//         if (customerExists) {
-//             return res.status(400).json({
-//                 error: "This email address is already associated with another customer!"
-//             });
-//         }
-
-//         const customerData = req.body;
-//         const customer = await customerService.createCustomer(customerData);
-//         if (!customer) {
-//             return res.status(400).json({
-//                 error: "Failed to add the customer!"
-//             });
-//         }
-
-//         return res.status(200).json({
-//             status: "success",
-//             data: customer // Return the created customer data if needed
-//         });
-//     } catch (error) {
-//         console.error("Error creating customer:", error);
-//         return res.status(500).json({
-//             error: "Something went wrong while creating the customer!"
-//         });
-//     }
-// }
-
-// async function getAllCustomers(req, res, next) {
-//     try {
-//         const customers = await customerService.getAllCustomers();
-//         if (!customers) {
-//             return res.status(400).json({
-//                 error: "Failed to get all customers!"
-//             });
-//         }
-
-//         return res.status(200).json({
-//             status: "success",
-//             data: customers
-//         });
-//     } catch (error) {
-//         console.error("Error fetching all customers:", error);
-//         return res.status(500).json({
-//             error: "Something went wrong while fetching all customers!"
-//         });
-//     }
-// }
-
-// module.exports = {
-//     createCustomer,
-//     getAllCustomers
-// };
-
-
-
-
-
-
-const customerService = require('../services/customer.service');
-
+// a function to create a customer
 async function createCustomer(req, res, next) {
+  const { customer_email } = req.body;
+  // console.log(customer_email)
+
   try {
-    const customerExists = await customerService.checkIfCustomerExists(req.body.customer_email);
+    const customerExists = await checkIfCustomerExists(customer_email);
+    // console.log(customerExists)
+
     if (customerExists) {
       return res.status(400).json({
-        error: "This email address is already associated with another customer!"
+        msg: "This email address is already associated with  another customer!",
       });
-    }
+    } else {
+      try {
+        const customerData = req.body;
+        // console.log(customerData);
 
-    const customerData = req.body;
-    const customer = await customerService.createCustomer(customerData);
-    if (!customer) {
-      return res.status(400).json({
-        error: "Failed to add the customer!"
-      });
-    }
+        const newCustomer = await createCustomerr(customerData);
+        // console.log(newCustomer)
 
-    return res.status(200).json({
-      status: "success",
-      data: customer
-    });
+        if (!newCustomer) {
+          return res.status(400).json({
+            error: "Failed to add the customer!",
+          });
+        } else {
+          res.status(200).json({ status: "Customer added successfully" });
+        }
+      } catch (error) {
+        // console.log(error);
+        return res.status(400).json({
+          error: "Something went wrong!",
+        });
+      }
+    }
   } catch (error) {
-    console.error("Error creating customer:", error);
-    return next(error);
+    // console.log(error);
+    return res.status(400).json({
+      error: "Something went wrong!",
+    });
+  }
+}
+
+// a function to get all customer
+async function getAllCustomers(req, res, next) {
+  try {
+    const customers = await getAllCustomerss();
+
+    if (!customers) {
+      res.status(400).json({
+        error: "Failed to get all Customers!",
+      });
+    } else {
+      res.status(200).json({
+        status: "Customers retrieved successfully!",
+        customers: customers,
+      });
+    }
+  } catch (error) {
+    // console.log(error);
+    res.status(404).json({
+      error: "Something went wrong!",
+    });
+  }
+}
+
+// a function to update customer
+async function updateCustomer(req, res, next) {
+  // console.log(req.body)
+  try {
+    const updateCustomer = await updateCustomerr(req.body);
+
+    // console.log(updateCustomer)
+
+    const rows1 = updateCustomer.rows1.affectedRows;
+    const rows2 = updateCustomer.rows2.affectedRows;
+
+    // console.log(rows1, rows2);
+
+    if (!updateCustomer) {
+      return res.status(400).json({
+        error: "Failed to update the customer!",
+      });
+    } else if (rows1 === 1 && rows2 === 1) {
+      return res.status(200).json({
+        status: "Customer Successful Updated!",
+      });
+    } else {
+      return res.status(400).json({
+        status: "Update Incomplete!",
+      });
+    }
+  } catch (error) {
+    // console.log(error);
+    res.status(400).json({
+      error: "Something went wrong!",
+    });
+  }
+}
+
+// a function to get single customer
+async function getsingleCustomer(req, res, next) {
+  const customer_hash = req.params.hash;
+  // console.log(customer_hash)
+
+  try {
+    const singleCustomer = await getSingleCustomerr(customer_hash);
+    // console.log(singleCustomer);
+
+    if (!singleCustomer) {
+      res.status(400).json({
+        error: "Failed to get Customer!",
+      });
+    } else {
+      res.status(200).json({
+        status: "Customer retrieved successfully! ",
+        singleCustomer: singleCustomer,
+      });
+    }
+  } catch (error) {
+    // console.log(error);
+    res.status(400).json({
+      error: "Something went wrong!",
+    });
+  }
+}
+
+// a function to get find customer
+async function findCustomer(req, res, next) {
+  // console.log(req.query);
+  try {
+    const customer = await findCustomerr(req.query);
+    // console.log(customer)
+
+    if (customer.length < 1) {
+      return res.status(400).json({
+        error: "Customer Not Found!",
+      });
+    } else {
+      return res.status(200).json({
+        status: "Customer found!!",
+        customer: customer,
+      });
+    }
+  } catch (error) {
+    // console.log(error);
+    res.status(400).json({
+      error: "Something went wrong!",
+    });
   }
 }
 
 module.exports = {
-  createCustomer
+  createCustomer,
+  getAllCustomers,
+  updateCustomer,
+  getsingleCustomer,
+  findCustomer,
 };
