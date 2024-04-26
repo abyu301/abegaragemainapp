@@ -1,125 +1,107 @@
-// // Import the dotenv package
-// require('dotenv').config();
-// // Import the jsonwebtoken package
-// const jwt = require("jsonwebtoken");
-// // A function to verify the token received from the frontend 
-// // Import the employee service 
-// const employeeService = require("../services/employee.service");
+// import the dot env module
+require("dotenv").config();
 
-// // A function to verify the token received from the frontend 
-// const verifyToken = async (req, res, next) => {
-//     let token = req.headers["x-access-token"];
-//     if (!token) {
-//         return res.status(403).send({
-//             status: "fail",
-//             message: "No token provided!"
-//         });
-//     }
-
-//     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//         if (err) {
-//             return res.status(401).send({
-//                 status: "fail",
-//                 message: "Unauthorized!"
-//             });
-//         }
-        
-//         // Check if decoded token contains employee_email
-//         if (!decoded.employee_email) {
-//             return res.status(401).send({
-//                 status: "fail",
-//                 message: "Invalid token format!"
-//             });
-//         }
-
-//         req.employee_email = decoded.employee_email;
-//         next();
-//     });
-// }
-
-
-//     // A function to check if the user is an admin
-//     const isAdmin = async (req, res, next) => {
-//     // let token = req.headers["x-access-token"];
-//     console.log(req.employee_email);
-//     const employee_email = req.employee_email;
-//     const employee = await employeeService.getEmployeeByEmail(employee_email);
-//     if (employee[0].company_role_id === 3) {
-//         next();
-//     } else {
-//         return res.status(403).send({
-//         status: "fail",
-//         error: "Not an Admin!"
-//         });
-//     }
-//     }
-
-//     const authMiddleware = {
-//     verifyToken,
-//     isAdmin
-//     }
-
-// module.exports = authMiddleware;
-
-
-
-
-
-
+// import jsonwebroken module
 const jwt = require("jsonwebtoken");
+
+// import the employee service
 const employeeService = require("../services/employee.service");
 
-const verifyToken = async (req, res, next) => {
-    let token = req.headers["x-access-token"];
-    if (!token) {
-        return res.status(403).json({
-            status: "fail",
-            message: "No token provided!"
-        });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({
-                status: "fail",
-                message: "Unauthorized!"
-            });
-        }
-        
-        if (!decoded.employee_email) {
-            return res.status(401).json({
-                status: "fail",
-                message: "Invalid token format!"
-            });
-        }
-
-        req.employee_email = decoded.employee_email;
-        next();
+async function verifyToken(req, res, next) {
+  let token = req.headers["x-access-token"];
+  // console.log(token)
+  if (!token) {
+    return res.status(403).send({
+      status: "fail",
+      msg: "no token provided",
     });
-};
+  }
 
-const isAdmin = async (req, res, next) => {
-    const employee_email = req.employee_email;
-    try {
-        const employee = await employeeService.getEmployeeByEmail(employee_email);
-        if (employee && employee[0].company_role_id === 3) {
-            next();
-        } else {
-            return res.status(403).json({
-                status: "fail",
-                error: "Not an Admin!"
-            });
-        }
-    } catch (error) {
-        console.error("Error checking admin status:", error);
-        return res.status(500).json({
-            error: "Something went wrong!"
-        });
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        status: "fail",
+        msg: "Unauthorized",
+      });
     }
+    // console.log(decoded)
+    req.employee_email = decoded.employee_email;
+    next();
+  });
+}
+
+///////////////////
+
+async function isAdmin(req, res, next) {
+  let token = req.headers["x-access-token"];
+
+  const employee_email = req.employee_email;
+  // console.log(req.employee_email);
+
+  const employee = await employeeService.getEmployeeByEmail(employee_email);
+  // console.log(employee)
+
+  if (employee[0].company_role_id === 3) {
+    next();
+  } else {
+    return res.status(403).send({
+      status: "fail",
+      msg: "Not an Admin",
+    });
+  }
+}
+
+async function isAdmin_Manager(req, res, next) {
+  //   let token = req.headers["x-access-token"];
+
+  const employee_email = req.employee_email;
+  // console.log(req.employee_email)
+
+  const employee = await employeeService.getEmployeeByEmail(employee_email);
+  // console.log(employee[0]);
+
+  if (employee[0].company_role_id === 3) {
+    next();
+  } else if (employee[0].company_role_id === 2) {
+    next();
+  } else {
+    return res.status(403).send({
+      status: "fail",
+      msg: "Not an Admin",
+    });
+  }
+}
+
+async function isAdmin_Manager_Employee(req, res, next) {
+  //   let token = req.headers["x-access-token"];
+
+  const employee_email = req.employee_email;
+  console.log(req.employee_email);
+
+  const employee = await employeeService.getEmployeeByEmail(employee_email);
+  // console.log(employee);
+
+  if (employee[0].company_role_id === 3) {
+    next();
+  } else if (employee[0].company_role_id === 2) {
+    next();
+  } else if (employee[0].company_role_id === 1) {
+    next();
+  } else {
+    return res.status(403).send({
+      status: "fail",
+      msg: "Not an Admin",
+    });
+  }
+}
+
+////////////////////////
+const authmiddleware = {
+  verifyToken,
+  isAdmin,
+  isAdmin_Manager,
+  isAdmin_Manager_Employee,
 };
 
-module.exports = {
-    verifyToken,
-    isAdmin
-};
-
+//////////
+module.exports = authmiddleware;
