@@ -79,12 +79,16 @@ function AddCustomerForm() {
       if (data.error) {
         setServerMsg(data.error);
       } else {
-        setServerMsg('');
+        // Display success message
+        setServerMsg('Customer added successfully.');
         setSpinner(true);
+
+        // Hide success message and navigate after 2 seconds
         setTimeout(() => {
           setSpinner(false);
+          setServerMsg('');
           navigate('/');
-        }, 2000);
+        }, 5000);
       }
     } catch (error) {
       const resMessage = error.response?.data?.message || error.message || error.toString();
@@ -98,6 +102,12 @@ function AddCustomerForm() {
         <div className="contact-title">
           <h2>Add a New Customer</h2>
         </div>
+        {/* Alert Component for Server Message */}
+        {serverMsg && (
+          <div className="alert alert-success" role="alert">
+            {serverMsg}
+          </div>
+        )}
         <div className="row clearfix">
           <div className="form-column col-lg-7">
             <div className="inner-column">
@@ -179,20 +189,6 @@ function AddCustomerForm() {
                           )}
                         </span>
                       </button>
-                      {serverMsg && (
-                        <div
-                          className="validation-error"
-                          style={{
-                            color: "green",
-                            fontSize: "100%",
-                            fontWeight: "600",
-                            padding: "25px",
-                          }}
-                          role="alert"
-                        >
-                          {serverMsg}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </form>

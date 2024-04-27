@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-// import employee.service.js 
 import employeeService from '../../../../services/employee.service';
-// import the useAuth hook 
 import { useAuth } from "../../../../Contexts/AuthContext";
 
 function AddEmployeeForm(props) {
@@ -12,34 +10,28 @@ function AddEmployeeForm(props) {
   const [employee_password, setPassword] = useState('');
   const [active_employee, setActive_employee] = useState(1);
   const [company_role_id, setCompany_role_id] = useState(1);
-  // Errors 
   const [emailError, setEmailError] = useState('');
   const [firstNameRequired, setFirstNameRequired] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [success, setSuccess] = useState(false);
   const [serverError, setServerError] = useState('');
 
-  // create a variable to hold the user"s token
-  let loggedInEmployeeToken = '';
-  // Destructure the auth hook and get the token
   const { employee } = useAuth();
+  let loggedInEmployeeToken = '';
   if (employee) {
     loggedInEmployeeToken = employee.employee_token;
   }
 
-  const handleSubmit = (e) => {
-    // Prevent the default behavior of the form
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle client side validations  
-    let valid = true; // Flag 
-    // First name is required 
+    let valid = true;
     if (!employee_first_name) {
       setFirstNameRequired('First name is required');
       valid = false;
     } else {
       setFirstNameRequired('');
     }
-    // Email is required
+
     if (!employee_email) {
       setEmailError('Email is required');
       valid = false;
@@ -54,14 +46,14 @@ function AddEmployeeForm(props) {
         setEmailError('');
       }
     }
-    // Password has to be at least 6 characters long
+
     if (!employee_password || employee_password.length < 6) {
       setPasswordError('Password must be at least 6 characters long');
       valid = false;
     } else {
       setPasswordError('');
     }
-    // If the form is not valid, do not submit 
+
     if (!valid) {
       return;
     }
@@ -76,39 +68,29 @@ function AddEmployeeForm(props) {
       company_role_id
     };
 
-    // Pass the form data to the service 
-    const newEmployee = employeeService.createEmployee(formData, loggedInEmployeeToken);
-    newEmployee.then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        // If Error is returned from the API server, set the error message
-        if (data.error) {
-          setServerError(data.error)
-        } else {
-          // Handle successful response 
-          setSuccess(true);
-          setServerError('')
-          // Redirect to the employees page after 2 seconds 
-          // For now, just redirect to the home page 
-          setTimeout(() => {
-            // window.location.href = '/admin/employees';
-            window.location.href = '/';
-          }, 2000);
-        }
-      })
-      // Handle Catch 
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setServerError(resMessage);
-      });
+    try {
+      const response = await employeeService.createEmployee(formData, loggedInEmployeeToken);
+      const data = await response.json();
+      if (data.error) {
+        setServerError(data.error)
+      } else {
+        setSuccess(true);
+        setServerError('')
+        setTimeout(() => {
+          setSuccess(false);
+          window.location.href = '/';
+        }, 5000); // Display the success message for 5 seconds before redirecting
+      }
+    } catch (error) {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      setServerError(resMessage);
+    }
   }
-
-
 
   return (
     <section className="contact-section">
@@ -116,6 +98,11 @@ function AddEmployeeForm(props) {
         <div className="contact-title">
           <h2>Add a new employee</h2>
         </div>
+        {success && (
+          <div className="alert alert-success" role="alert">
+            Employee added successfully.
+          </div>
+        )}
         <div className="row clearfix">
           <div className="form-column col-lg-7">
             <div className="inner-column">
@@ -161,7 +148,6 @@ function AddEmployeeForm(props) {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
