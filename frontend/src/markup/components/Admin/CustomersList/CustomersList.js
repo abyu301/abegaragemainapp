@@ -36,10 +36,10 @@ function CustomersList() {
           }
           throw new Error("API error");
         }
-        const jsonData = await data.json();
-        console.log(jsonData);
-        if (jsonData.data && jsonData.data.length !== 0) {
-          setCustomers(jsonData.data);
+        const customersData = await data.json();
+        console.log(customersData);
+        if (customersData.customers && customersData.customers.length !== 0) {
+          setCustomers(customersData.customers);
         }
         setTimeout(() => {
           setSpinner(!spin);
@@ -50,8 +50,6 @@ function CustomersList() {
     };
     fetchData();
   }, []);
-  
-  
 
   function handleEdit(id) {
     navigate(`/admin/customer-update/${id}`);
