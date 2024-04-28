@@ -27,7 +27,7 @@ async function getAllCustomers(loggedInEmployeeToken) {
     }
   };
   const response = await fetch(`${api_url}/api/customers`, requestOptions);
-  return response.json();
+  return response;
 }
 
 const customerService = {
