@@ -6,7 +6,7 @@ import bannerImage1 from "../../assets/images/banner/banner.jpg";
 import bannerImage2 from "../../assets/images/misc/vban4.jpg";
 import miscImage1 from "../../assets/images/misc/vban1.jpg";
 import miscImage2 from "../../assets/images/misc/vban2.jpg";
-import resourceImage1 from "../../assets/images/misc/vban2.png";
+import featureImage from "../../assets/images/custom/features.png";
 import resourceImage2 from "../../assets/images/misc/vban3.jpg";
 
 import "../../assets/styles/custom.css";
@@ -184,9 +184,9 @@ function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="features-section">
-        <div className="auto-container">
+       {/* Features Section */}
+       <section className="features-section">
+        <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="inner-container">
@@ -204,8 +204,8 @@ function Home() {
               </div>
             </div>
             <div className="col-lg-6">
-              <div className="image">
-                <img src={resourceImage1} alt="" />
+              <div className="image-container">
+                <img className="img-fluid" src={featureImage} alt="Feature Image" />
               </div>
             </div>
           </div>

@@ -1,48 +1,71 @@
-// Import React and the Hooks we need here 
-import React, { useState, useEffect, useContext } from "react";
-// Import the Util function we created to handle the reading from the local storage 
-import getAuth from '../util/auth';
-// Create a context object  
+// import the react and the hooks here
+import React, { useState, useEffect, useContext, createContext } from "react";
+
+// import the utils function to handle the reading from the local storage
+import getAuth from "../util/auth";
+
+// create a context object
 const AuthContext = React.createContext();
-// Create a custom hook to use the context
-export const useAuth = () => {
+
+// create a custom hook to use the context
+function useAuth() {
   return useContext(AuthContext);
 }
-// Create a provider component  
-export const AuthProvider = ({ children }) => {
+
+// create a provider conponent
+function AuthProvider({ children }) {
+  const [employee, setEmployee] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [employee, setEmployee] = useState(null);
-  const [customer, setCustomer] = useState(null);
+  const [isAdmin_manager, setIsAdmin_Manager] = useState(false);
+  const [isAdmin_manager_employee, setIsAdmin_Manager_employee] =
+    useState(false);
 
-  const value = { isLogged, isAdmin, setIsAdmin, setIsLogged, employee };
+  const value = {
+    isLogged,
+    isAdmin,
+    isAdmin_manager,
+    isAdmin_manager_employee,
+    setIsAdmin,
+    setIsLogged,
+    setIsAdmin_Manager,
+    setIsAdmin_Manager_employee,
+    employee,
+  };
 
   useEffect(() => {
-    // Retrieve the logged in user from local storage
+    // retrive the logged in user from local storage
     const loggedInEmployee = getAuth();
-    // console.log(loggedInEmployee);
-    // const loggedInCustomer = getAuth();
-    // console.log(loggedInCustomer);
 
     loggedInEmployee.then((response) => {
-      // console.log(response);
+      // console.log(response)
+
+      // set islogged to true
       if (response.employee_token) {
         setIsLogged(true);
-        // 3 is the employee_role for admin
-        if (response.employee_role === 3) {
-          setIsAdmin(true);
-        }
-        setEmployee(response);
       }
+
+      // 3 is the employe role for admin
+      if (response.employee_role === 3) {
+        setIsAdmin(true);
+      }
+
+      // 3 & 2 is the employe role for admin & manager
+      if (response.employee_role === 2) {
+        setIsAdmin_Manager(true);
+      }
+
+      // 3,2 & 1 is the employe role for admin,manager & employee
+      if (response.employee_role === 1) {
+        setIsAdmin_Manager_employee(true);
+      }
+
+      //set the whole response on employee
+      setEmployee(response);
     });
   }, []);
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
 
-
-
+export { AuthProvider, useAuth };

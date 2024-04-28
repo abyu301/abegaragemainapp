@@ -35,7 +35,10 @@ function Header(props) {
               <div className="right-column">
                 {isLogged ? (
                   <div className="link-btn">
-                    <div className="phone-number"><strong>Welcome {employee?.employee_first_name}</strong></div>
+                    <div className="phone-number" style={{ margin: '0 40px' }}>
+  <strong>Welcome {employee?.employee_first_name}</strong>
+</div>
+
                   </div>
                 ) : (
                   <div className="phone-number">Schedule Appointment: <strong>1800 456 7890   </strong> </div>
