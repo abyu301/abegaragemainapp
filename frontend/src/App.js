@@ -16,6 +16,7 @@ import Unauthorized from './markup/pages/Unauthorized';
 // Import the Orders and Customers component
 import Orders from './markup/pages/admin/Orders';
 import Customers from './markup/pages/admin/Customers';
+import CustomerProfilee from './markup/pages/admin/CustomerProfilee';
 import Employees from './markup/pages/admin/Employees';
 
 
@@ -54,6 +55,8 @@ function App() {
               <Orders />
             </PrivateAuthRoute>
           } />
+
+          {/* Customer Page Routes */}
         {/* // Add the Customers Route  */}
         <Route path="/admin/customers"
             element={<Customers />
@@ -64,6 +67,16 @@ function App() {
               <AddCustomers />
             </PrivateAuthRoute>
           } />
+
+          {/* Customer Profile Page Route */}
+        <Route
+          path="/admin/customer-profile/:customer_hash"
+          element={<CustomerProfilee />}
+        />
+
+
+
+        {/* Employees Page Routes */}
         {/* // Add the Employees Route  */}
         <Route path="/admin/employees" element={<Employees />
         } />
