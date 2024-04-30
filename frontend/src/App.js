@@ -16,7 +16,8 @@ import Unauthorized from './markup/pages/Unauthorized';
 // Import the Orders and Customers component
 import Orders from './markup/pages/admin/Orders';
 import Customers from './markup/pages/admin/Customers';
-import CustomerProfilee from './markup/pages/admin/CustomerProfilee';
+import CustomerProfile from './markup/pages/admin/CustomerProfilee';
+import EditCustomer from './markup/pages/admin/EditCustomer';
 import Employees from './markup/pages/admin/Employees';
 
 
@@ -71,7 +72,13 @@ function App() {
           {/* Customer Profile Page Route */}
         <Route
           path="/admin/customer-profile/:customer_hash"
-          element={<CustomerProfilee />}
+          element={<CustomerProfile />}
+        />
+
+        {/* Edit Customer Page Route */}
+        <Route
+          path="/admin/customer-update/:customer_hash"
+          element={<EditCustomer />}
         />
 
 

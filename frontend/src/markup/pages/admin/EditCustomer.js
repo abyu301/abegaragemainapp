@@ -1,23 +1,15 @@
 import React from "react";
-
-// import the auth hook context
 import { useAuth } from "../../../Contexts/AuthContext";
-
-// import the login component
 import LoginForm from "../../components/LoginForm/LoginForm";
-
-// import the admin menu component
 import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
-
-
-import CustomerProfile from "../../components/Admin/CustomerProfile/CustomerProfile";
+import EditCustomerForm from "../../components/Admin/EditCustomerForm/EditCustomerForm";
 import { Link } from "react-router-dom";
 
-function CustomerProfilee() {
-  const { isLogged, isAdmin_manager, isAdmin } = useAuth();
+function EditCustomer() {
+  const { isLogged, isAdmin } = useAuth();
 
   if (isLogged) {
-    if (isAdmin_manager || isAdmin) {
+    if (isAdmin) {
       return (
         <div>
           <div className="container-fluid admin-pages">
@@ -26,7 +18,7 @@ function CustomerProfilee() {
                 <AdminMenu />
               </div>
               <div className="col-md-9 admin-right-side">
-                <CustomerProfile />
+                <EditCustomerForm /> {/* Updated component name */}
               </div>
             </div>
           </div>
@@ -34,13 +26,12 @@ function CustomerProfilee() {
       );
     } else {
       return (
-        <div class="not-found-container">
-          <div class="not-found-content">
+        <div className="not-found-container"> {/* Changed 'class' to 'className' */}
+          <div className="not-found-content"> {/* Changed 'class' to 'className' */}
             <h2>
-              {" "}
               You don't have the Permission to access the page you request!
             </h2>
-            <Link class="back-home-link" to="/">
+            <Link className="back-home-link" to="/">
               <span> Back to Home</span>
             </Link>
           </div>
@@ -56,4 +47,4 @@ function CustomerProfilee() {
   }
 }
 
-export default CustomerProfilee;
+export default EditCustomer;
