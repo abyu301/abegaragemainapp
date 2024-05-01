@@ -19,6 +19,7 @@ import Customers from './markup/pages/admin/Customers';
 import CustomerProfile from './markup/pages/admin/CustomerProfilee';
 import EditCustomer from './markup/pages/admin/EditCustomer';
 import Employees from './markup/pages/admin/Employees';
+import EditEmployee from './markup/pages/admin/EditEmployee';
 
 
 // Import the css files 
@@ -93,6 +94,13 @@ function App() {
               <AddEmployee />
             </PrivateAuthRoute>
           } />
+          
+           {/* Edit Employees page route */}
+        <Route
+          path="/admin/employee-update/:employee_hash"
+          element={<EditEmployee />}
+        />
+
 
            {/* // Add the AdminDashboard Route  */}
         <Route path="/admin"

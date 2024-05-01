@@ -1,31 +1,22 @@
-// Import the necessary components 
 import React, { useState, useEffect } from "react";
-import { Table, Button } from 'react-bootstrap';
-// Import the auth hook  
-import { useAuth } from "../../../../Contexts/AuthContext";
-// Import the date-fns library 
-import { format } from 'date-fns'; // To properly format the date on the table 
-// Import the getAllEmployees function  
+import { Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { format } from 'date-fns'; 
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import employeeService from "../../../../services/employee.service";
+import { useAuth } from "../../../../Contexts/AuthContext";
 
-// Create the EmployeesList component 
 const EmployeesList = () => {
-  // Create all the states we need to store the data
-  // Create the employees state to store the employees data  
   const [employees, setEmployees] = useState([]);
-  // A state to serve as a flag to show the error message 
   const [apiError, setApiError] = useState(false);
-  // A state to store the error message 
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
-  // To get the logged in employee token
   const { employee } = useAuth();
-  let token = null; // To store the token 
+  let token = null; 
   if (employee) {
     token = employee.employee_token;
   }
 
   useEffect(() => {
-    // Call the getAllEmployees function 
     const allEmployees = employeeService.getAllEmployees(token);
     allEmployees.then((res) => {
       if (!res.ok) {
@@ -46,7 +37,7 @@ const EmployeesList = () => {
       }
 
     }).catch((err) => {
-      // console.log(err);
+      console.error(err);
     })
   }, []);
 
@@ -67,7 +58,7 @@ const EmployeesList = () => {
               <div className="contact-title">
                 <h2>Employees</h2 >
               </div >
-              < Table striped bordered hover >
+              <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th>Active</th>
@@ -92,20 +83,21 @@ const EmployeesList = () => {
                       <td>{employee.company_role_name}</td>
                       <td>
                         <div className="edit-delete-icons">
-                          edit | delete
+                          <Link to={`/admin/employee-update/${employee.employee_hash}`}><FaEdit /></Link> {/* Edit Icon */}
+                          <span>&nbsp;|&nbsp;</span>
+                          <Link to={`/admin/employees/delete/${employee.employee_id}`}><FaTrash /></Link> {/* Delete Icon */}
                         </div>
                       </td>
                     </tr>
                   ))}
                 </tbody>
-              </Table >
-            </div >
-          </section >
+              </Table>
+            </div>
+          </section>
         </>
       )}
     </>
   );
 }
 
-// Export the EmployeesList component 
 export default EmployeesList;
