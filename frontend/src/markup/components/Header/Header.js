@@ -1,26 +1,36 @@
-import React from 'react';
-// Import the Link component from react-router-dom 
-import { Link } from 'react-router-dom'
-// Import the logo image 
-import logo from '../../../assets/images/logo.png';
-// Import the login service to access the logout function
-import loginService from '../../../services/login.service';
-// Import the custom context hook 
-import { useAuth } from '../../../Contexts/AuthContext';
+import React from "react";
 
+// import the logo image
+import logo from "../../../assets/images/logo.png";
 
-function Header(props) {
-  // Use the custom hook to access the data in the context 
-  const { isLogged, setIsLogged, employee } = useAuth();
-  // console.log(useAuth());
+// import components from react router dom
+import { Link } from "react-router-dom";
 
-  // Log out event handler function
-  const logOut = () => {
-    // Call the logout function from the login service 
-    loginService.logOut();
-    // Set the isLogged state to false 
+// import the custom context hook
+import { useAuth } from "../../../Contexts/AuthContext";
+
+// import the login service to access the logout function
+import { logOut } from "../../../services/login.service";
+
+function Header() {
+  const {
+    isLogged,
+    setIsLogged,
+    employee,
+    isAdmin,
+    isAdmin_manager_employee,
+    isAdmin_Manager,
+  } = useAuth();
+
+  // console.log(isAdmin_manager_employee);
+
+  // LogOut event handler
+  const handleLogOut = () => {
+    logOut();
+
+    // set the isLogged state to false
     setIsLogged(false);
-  }
+  };
 
   return (
     <div>
@@ -30,18 +40,26 @@ function Header(props) {
             <div className="inner-container">
               <div className="left-column">
                 <div className="text">Enjoy the Beso while we fix your car</div>
-                <div className="office-hour">Monday - Saturday 7:00AM - 6:00PM</div>
+                <div className="office-hour">
+                  Monday - Saturday 7:00AM - 6:00PM
+                </div>
               </div>
               <div className="right-column">
                 {isLogged ? (
                   <div className="link-btn">
-                    <div className="phone-number" style={{ margin: '0 40px' }}>
-  <strong>Welcome {employee?.employee_first_name}</strong>
-</div>
-
+                    <div className="phone-number">
+                      <strong style={{ paddingRight: "10px" }}>
+                        Welcome : {employee?.employee_first_name}
+                      </strong>
+                    </div>
                   </div>
                 ) : (
-                  <div className="phone-number">Schedule Appointment: <strong>1800 456 7890   </strong> </div>
+                  <div className="phone-number">
+                    Schedule Appointment :
+                    <strong style={{ paddingRight: "10px" }}>
+                      1800 456 7890
+                    </strong>
+                  </div>
                 )}
               </div>
             </div>
@@ -51,35 +69,59 @@ function Header(props) {
           <div className="auto-container">
             <div className="inner-container">
               <div className="logo-box">
-                <div className="logo"><a href="/"><img src={logo} alt="" /></a>
+                <div className="logo">
+                  <Link to="/">
+                    <img src={logo} alt="header_logo" />
+                  </Link>
                 </div>
               </div>
               <div className="right-column">
                 <div className="nav-outer">
-                  <div className="mobile-nav-toggler"><img src="assets/images/icons/icon-bar.png" alt="" />
+                  <div className="mobile-nav-toggler">
+                    <img src="assets/images/icons/icon-bar.png" alt="" />
                   </div>
                   <nav className="main-menu navbar-expand-md navbar-light">
-                    <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
+                    <div
+                      className="collapse navbar-collapse show clearfix"
+                      id="navbarSupportedContent">
                       <ul className="navigation">
-                        <li className="dropdown"><a href="/">Home</a>
+                        <li className="dropdown">
+                          <Link to="/">Home</Link>
                         </li>
-                        <li className="dropdown"><a href="/about">About Us</a>
+                        <li className="dropdown">
+                          <Link to="/about">About Us</Link>
                         </li>
-                        <li className="dropdown"><a href="/services">Services</a>
+                        <li className="dropdown">
+                          <Link to="/services">Services</Link>
                         </li>
-                        <li><a href="/contact">Contact Us</a></li>
+                        <li>
+                          <Link to="/contact">Contact Us</Link>
+                        </li>
+                        {isLogged ? (
+                          <li>
+                            <Link to="/admin">Dashboard</Link>
+                          </li>
+                        ) : null}
                       </ul>
                     </div>
                   </nav>
                 </div>
                 <div className="search-btn"></div>
+
                 {isLogged ? (
                   <div className="link-btn">
-                    <Link to="/" className="theme-btn btn-style-one blue" onClick={logOut} >Log out</Link>
+                    <Link
+                      to="/"
+                      className="theme-btn btn-style-one blue"
+                      onClick={handleLogOut}>
+                      Logout
+                    </Link>
                   </div>
                 ) : (
                   <div className="link-btn">
-                    <Link to="/login" className="theme-btn btn-style-one">Login</Link>
+                    <Link to="/login" className="theme-btn btn-style-one">
+                      Login
+                    </Link>
                   </div>
                 )}
               </div>
@@ -91,19 +133,25 @@ function Header(props) {
             <div className="auto-container">
               <div className="inner-container">
                 <div className="logo-box">
-                  <div className="logo"><a href="/"><img src="assets/images/custom/logo.png" alt="" /></a>
+                  <div className="logo">
+                    <a href="/">
+                      <img src="assets/images/custom/logo.png" alt="" />
+                    </a>
                   </div>
                 </div>
                 <div className="right-column">
                   <div className="nav-outer">
-                    <div className="mobile-nav-toggler"><img src="assets/images/icons/icon-bar.png" alt="" />
+                    <div className="mobile-nav-toggler">
+                      <img src="assets/images/icons/icon-bar.png" alt="" />
                     </div>
 
-                    <nav className="main-menu navbar-expand-md navbar-light">
-                    </nav>
+                    <nav className="main-menu navbar-expand-md navbar-light"></nav>
                   </div>
                   <div className="search-btn"></div>
-                  <div className="link-btn"><a href="/login" className="theme-btn btn-style-one">Login</a>
+                  <div className="link-btn">
+                    <a href="/login" className="theme-btn btn-style-one">
+                      Login
+                    </a>
                   </div>
                 </div>
               </div>
@@ -112,16 +160,17 @@ function Header(props) {
         </div>
         <div className="mobile-menu">
           <div className="menu-backdrop"></div>
-          <div className="close-btn"><span className="icon flaticon-remove"></span></div>
+          <div className="close-btn">
+            <span className="icon flaticon-remove"></span>
+          </div>
 
           <nav className="menu-box">
-            <div className="nav-logo"><a href="index.html">
-              <img src="assets/images/logo-two.png" alt=""
-                title="" /></a></div>
-            <div className="menu-outer">
-
+            <div className="nav-logo">
+              <a href="index.html">
+                <img src="assets/images/logo-two.png" alt="" title="" />
+              </a>
             </div>
-
+            <div className="menu-outer"></div>
           </nav>
         </div>
 

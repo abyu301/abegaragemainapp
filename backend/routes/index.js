@@ -1,24 +1,50 @@
-// Import the express module 
-const express = require('express');
-// Call the router method from express to create the router 
+// import the express module
+const express = require("express");
+
+// call the router method from express to create the router
 const router = express.Router();
-// Import the install router 
-const installRouter = require('./install.routes');
-// Import the customer routes
-const customerRouter = require('./customer.routes');
-// Import the employee routes 
-const employeeRouter = require('./employee.routes');
-// Import the login routes 
-const loginRoutes = require("./login.routes");
 
+// import the install routes
+const installRouter = require("./install.routes");
 
-// Add the install router to the main router 
+// import the employee routes
+const employeeRouter = require("./employee.routes");
+
+// import the customer routes
+const customerRouter = require("./customer.routes");
+
+// import the vehicle routes
+const vehicleRouter = require("./vehicle.routes");
+
+// import the service routes
+const serviceRouter = require("./service.routes");
+
+// import the order routes
+const orderRouter = require("./order.routes");
+
+// import the login routes
+const logInRouter = require("./login.routes");
+
+// Add the install router to the main router
 router.use(installRouter);
-// Add the customer routes to the main router
-router.use(customerRouter);
-// Add the employee routes to the main router 
+
+// Add the employee router to the main router
 router.use(employeeRouter);
-// Add the login routes to the main router
-router.use(loginRoutes);
-// Export the router
-module.exports = router; 
+
+// Add the customer router to the main router
+router.use(customerRouter);
+
+// Add the vehicle router to the main router
+router.use(vehicleRouter);
+
+// Add the service router to the main router
+router.use(serviceRouter);
+
+// Add the order router to the main router
+router.use(orderRouter);
+
+// Add the login router to the main router
+router.use(logInRouter);
+
+// export the router
+module.exports = router;

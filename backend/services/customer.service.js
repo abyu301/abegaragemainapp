@@ -134,20 +134,25 @@ async function getSingleCustomerr(customer) {
 
     const rows = await connection.query(query, [customer_hash]);
 
-    // console.log(rows[0].customer_id);
+    if (rows.length === 0) {
+      // Customer not found, return null or handle accordingly
+      return null;
+    }
+
     const customer_id = rows[0].customer_id;
 
     const query1 = `SELECT * FROM customer_identifier INNER JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id WHERE customer_identifier.customer_id = ?`;
 
     const rows1 = await connection.query(query1, [customer_id]);
 
-    // console.log(rows);
-
     return rows1;
   } catch (error) {
     console.log(error);
+    // Handle the error gracefully, maybe log it or return a specific error message
+    throw new Error("An error occurred while fetching the customer.");
   }
 }
+
 
 // find customer with query parameter
 async function findCustomerr(customer) {

@@ -1,36 +1,75 @@
-// Import from the env 
 const api_url = process.env.REACT_APP_API_URL;
 
-// A function to send post request to create a new order
-const createOrder = async (orderData, token) => {
-  const requestOptions = {
+async function addOrder(formData, loggedInEmployeeToken) {
+  const headers = {
+    "x-access-token": loggedInEmployeeToken,
+  };
+
+  const data = await fetch(`${api_url}/api/order`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-access-token': token
+      ...headers,
     },
-    body: JSON.stringify(orderData)
-  };
-  const response = await fetch(`${api_url}/api/orders`, requestOptions);
-  return response;
+    body: JSON.stringify(formData),
+  });
+
+  return data;
 }
 
-// A function to send get request to get all new orders
-const getAllOrders = async (token) => {
-  const requestOptions = {
-    method: 'GET',
+async function getAllOrder(loggedInEmployeeToken) {
+  const headers = {
+    "x-access-token": loggedInEmployeeToken,
+  };
+
+  const data = await fetch(`${api_url}/api/orders`, {
+    headers,
+  });
+
+  return data;
+}
+
+async function getSingleOrder(formData) {
+  const data = await fetch(`${api_url}/api/order/single/${formData}`);
+  
+  return data;
+}
+
+async function updateOrder(formData, loggedInEmployeeToken) {
+  const headers = {
+    "x-access-token": loggedInEmployeeToken,
+  };
+
+  const data = await fetch(`${api_url}/api/order/update`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'x-access-token': token
-    }
-  };
-  const response = await fetch(`${api_url}/api/orders`, requestOptions);
-  return response;
+      ...headers,
+    },
+    body: JSON.stringify(formData),
+  });
+
+  return data;
 }
 
-// Export all the functions 
-const orderService = {
-  createOrder,
-  getAllOrders
+async function customerOrders(formData, loggedInEmployeeToken) {
+  const headers = {
+    "x-access-token": loggedInEmployeeToken,
+  };
+
+  const data = await fetch(`${api_url}/api/order/customer/${formData}`, {
+    headers,
+  });
+
+  return data;
 }
-export default orderService;
+
+const Order = {
+  addOrder,
+  getAllOrder,
+  getSingleOrder,
+  updateOrder,
+  customerOrders,
+};
+
+export default Order;

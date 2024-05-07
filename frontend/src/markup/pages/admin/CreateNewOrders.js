@@ -9,10 +9,11 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 // import the admin menu component
 import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
 
-import NewOrder1 from "../../components/Admin/NewOrder.jsx/NewOrder1";
+// import CreateAnewOrderForm from "../../components/Admin/CreateNewOrderForm/CreateNewOrderForm";
+import CreateNewOrder from "../../components/Admin/CreateNewOrderForm/CreateNewOrderForm";
 import { Link } from "react-router-dom";
 
-function NewOrder() {
+function CreateNewOrders() {
   const { isLogged, isAdmin } = useAuth();
 
   if (isLogged) {
@@ -25,7 +26,7 @@ function NewOrder() {
                 <AdminMenu />
               </div>
               <div className="col-md-9 admin-right-side">
-                <NewOrder1 />
+                <CreateNewOrder />
               </div>
             </div>
           </div>
@@ -55,4 +56,4 @@ function NewOrder() {
   }
 }
 
-export default NewOrder;
+export default CreateNewOrders;

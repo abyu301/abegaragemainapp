@@ -26,6 +26,7 @@ function CustomersList() {
         const data = await customerService?.getAllCustomers(token);
         if (!data.ok) {
           console.log(data.status);
+          // console.log(data);
           setApiError(true);
           if (data.status === 401) {
             setApiErrorMessage("Please login again");
@@ -34,10 +35,11 @@ function CustomersList() {
           } else {
             setApiErrorMessage("Please try again later");
           }
-          throw new Error("API error");
+          return; // Return here to prevent further execution
         }
+        
         const customersData = await data.json();
-        console.log(customersData);
+        // console.log(customersData);
         if (customersData.customers && customersData.customers.length !== 0) {
           setCustomers(customersData.customers);
         }
@@ -50,6 +52,7 @@ function CustomersList() {
     };
     fetchData();
   }, []);
+  
 
   function handleEdit(id) {
     navigate(`/admin/customer-update/${id}`);

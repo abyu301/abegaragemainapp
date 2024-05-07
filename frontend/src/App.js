@@ -15,6 +15,12 @@ import ServicesPage from './markup/pages/Services';
 import Unauthorized from './markup/pages/Unauthorized';
 // Import the Orders and Customers component
 import Orders from './markup/pages/admin/Orders';
+import EditOrder from "./markup/pages/admin/EditOrders";
+import OrderDetails from "./markup/pages/admin/OrderDetails";
+import AddNewOrders from "./markup/pages/admin/AddNewOrders";
+import CreateNewOrders from './markup/pages/admin/CreateNewOrders';
+import NewOrder from './markup/pages/admin/NewOrder';
+
 import Customers from './markup/pages/admin/Customers';
 import CustomerProfile from './markup/pages/admin/CustomerProfilee';
 import EditCustomer from './markup/pages/admin/EditCustomer';
@@ -117,6 +123,44 @@ function App() {
               <Services />
             </PrivateAuthRoute>
           } />
+
+           {/* /* Order Page Route */}
+
+             {/* Add New Order Page Route */}
+        <Route path="/admin/order" element={<NewOrder />} />
+
+        {/* Orders List Page Route*/}
+        <Route path="/admin/orders" element={<Orders />} />
+
+        {/* Order Update Page Route*/}
+        <Route
+          path="admin/orders/order-update/:order_hash"
+          element={
+            <PrivateAuthRoute roles={[1, 2, 3]}>
+              <EditOrder />
+            </PrivateAuthRoute>
+          }
+        />
+
+        {/* Order detail Page Route*/}
+        <Route
+          path="/orders/order-detail/:order_hash"
+          element={<OrderDetails />}
+        />
+
+        {/* Add customer Order Page Route*/}
+        <Route
+          path="admin/order/add-new-order/:customer_hash"
+          element={<AddNewOrders />}
+        />
+
+        {/* Add customer service Order Page Route*/}
+        <Route
+          path="admin/order/add-new-order/select-service/:customer_hash/:vehicle_id"
+          element={<CreateNewOrders />}
+        />
+
+
         {/* 
           Customers, AddCustomers (/admin/customers) - managers and admins
           Orders (/admin/orders) - Can be accessed by all employees
